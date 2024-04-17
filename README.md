@@ -7,17 +7,22 @@ This is the backend server for the Event Eclipse project.
 1. Clone the repository:
    ```bash
    git clone https://github.com/Tim-Alpha/event-eclipse-backend.git
+   ```
    
-## Install dependencies:
-  ```bash
-  npm install
-   
-## Run Server:
-  ```bash
-  npm run dev
-   
-## Run migrations:
-  ```bash
-  npx sequelize-cli db:migrate
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## Note: Make sure you have created a database named "event" in your local MySQL server.
+3. Run Server:
+   ```bash
+   npm run dev
+   ```
+
+4. Run migrations:
+   ```bash
+   npx sequelize-cli db:migrate
+   ```
+
+### Note: 
+Make sure you have created a database named "event" in your local MySQL server.
