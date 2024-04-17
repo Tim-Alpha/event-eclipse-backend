@@ -1,23 +1,38 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+import fs from 'fs';
+import path from 'path';
+import Sequelize from 'sequelize';
+import dotenv from 'dotenv';
+const { readdirSync } = fs;
+const { basename } = path;
+
+dotenv.config();
+
+const { NODE_ENV, DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME } = process.env;
+
+const env = NODE_ENV || 'development';
+import config from '../config/config.json';
+
+console.log("Configuration Data:");
+console.log(config);
+
+const { use_env_variable } = config[env];
+
 const db = {};
 
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+if (use_env_variable) {
+  sequelize = new Sequelize(process.env[use_env_variable], config);
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
+    host: DB_HOST,
+    port: DB_PORT,
+    dialect: 'mysql',
+  });
 }
 
-fs
-  .readdirSync(__dirname)
+readdirSync(__dirname)
   .filter(file => {
     return (
       file.indexOf('.') !== 0 &&
@@ -40,4 +55,4 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+export default db;
